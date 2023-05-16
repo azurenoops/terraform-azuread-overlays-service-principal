@@ -3,7 +3,7 @@
 #
 
 module "mod_service_principal" {
-    source  = "../terraform-azuread-overlays-service-principal/"
+    source  = "../.."
 
     service_principal_name = "mod_service_principal"
     service_principal_description = "Service Principal Example"
