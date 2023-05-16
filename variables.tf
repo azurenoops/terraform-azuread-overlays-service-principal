@@ -91,3 +91,18 @@ variable "service_principal_assignments" {
   }))
   default = []
 }
+
+variable "service_principal_graph_permissions" {
+  description = "The list of MSGraph assignments to this service Principal"
+  type = list(object({
+    id = string
+    type = string
+  }))
+  default =  []
+}
+
+variable "service_principal_directory_roles" {
+  description = "The list of Directory Roles to Give to the SPN"
+  type = list(string)
+  default =  []
+}
