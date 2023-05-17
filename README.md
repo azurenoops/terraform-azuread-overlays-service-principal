@@ -106,21 +106,23 @@ module "mod_service_principal" {
 
 ## Assigning MSGraph Permissions
 
-To set MsGraph permissions, you must specify a Microsoft Graph permission. See [Microsoft Graph Permissions Reference](https://learn.microsoft.com/en-us/graph/permissions-reference).
+To set MsGraph permissions, first you must set the has_graph_perms variable to true. Then you must specify a Microsoft Graph permission. The has_graph_perms variable defaults to false. See [Microsoft Graph Permissions Reference](https://learn.microsoft.com/en-us/graph/permissions-reference).
 
 You must additionally set the type. If you are unsure, leave the type as "Scope".
 
 ```hcl
 
-module "dsc_spn" {
+module "msgraph_spn" {
     source  = "../terraform-azuread-overlays-service-principal/"
 
     service_principal_name = "service_principal"
-    service_principal_description = "Service Principal that manages the M365DSC"
+    service_principal_description = "Service Principal with MsGraph Perms"
 
     enable_service_principal_certificate = false
     service_principal_password_rotation_in_years = 1
 
+  # Has MsGraph Perms?
+  has_graph_perms = true
 
   # Adding Delegated Permission Grants
   service_principal_graph_permissions = [
@@ -143,11 +145,11 @@ To set the service principal directory roles, you must specify the role using th
 
 ```hcl
 
-module "dsc_spn" {
+module "dir_role_spn" {
     source  = "../terraform-azuread-overlays-service-principal/"
 
     service_principal_name = "service_principal"
-    service_principal_description = "Service Principal that manages the M365DSC"
+    service_principal_description = "Service Principal with directory roles"
 
     enable_service_principal_certificate = false
     service_principal_password_rotation_in_years = 1

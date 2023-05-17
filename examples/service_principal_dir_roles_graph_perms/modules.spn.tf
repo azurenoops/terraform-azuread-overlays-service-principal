@@ -19,6 +19,9 @@ module "mod_service_principal" {
     },
   ]
 
+  # Has MsGraph Perms?
+  has_graph_perms = true
+
   # Adding Delegated Permission Grants
   service_principal_graph_permissions = [
     {
