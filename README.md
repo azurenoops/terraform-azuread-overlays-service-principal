@@ -103,3 +103,63 @@ module "mod_service_principal" {
   ]
 }
 ```
+
+## Assigning MSGraph Permissions
+
+To set MsGraph permissions, first you must set the has_graph_perms variable to true. Then you must specify a Microsoft Graph permission. The has_graph_perms variable defaults to false. See [Microsoft Graph Permissions Reference](https://learn.microsoft.com/en-us/graph/permissions-reference).
+
+You must additionally set the type. If you are unsure, leave the type as "Scope".
+
+```hcl
+
+module "msgraph_spn" {
+    source  = "../terraform-azuread-overlays-service-principal/"
+
+    service_principal_name = "service_principal"
+    service_principal_description = "Service Principal with MsGraph Perms"
+
+    enable_service_principal_certificate = false
+    service_principal_password_rotation_in_years = 1
+
+  # Has MsGraph Perms?
+  has_graph_perms = true
+
+  # Adding Delegated Permission Grants
+  service_principal_graph_permissions = [
+    {
+        id = "openid"
+        type = "Scope"
+    },
+    {
+        id = "User.Read"
+        type = "Scope"
+    },
+  ]
+
+}
+```
+
+## Assigning Directory Roles
+
+To set the service principal directory roles, you must specify the role using the template id. For built-in roles, see [Azure AD Built-in Roles](https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference)
+
+```hcl
+
+module "dir_role_spn" {
+    source  = "../terraform-azuread-overlays-service-principal/"
+
+    service_principal_name = "service_principal"
+    service_principal_description = "Service Principal with directory roles"
+
+    enable_service_principal_certificate = false
+    service_principal_password_rotation_in_years = 1
+
+
+  # Adding Directory Roles
+  service_principal_directory_roles = [
+    "fdd7a751-b60b-444a-984c-02652fe8fa1c", // Groups Administrator
+    "4d6ac14f-3453-41d0-bef9-a3e0c569773a"  // License Administrator
+  ]
+}
+
+```
